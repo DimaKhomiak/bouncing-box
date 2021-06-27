@@ -1,0 +1,118 @@
+<html style='background-color: black'>
+<div id="my_bouncing_box" style="background-color: blue;
+border-radius: 3px; position: absolute; 
+left: 0px; top: 0px; min-width: 100px; 
+min-height: 100px; text-align: center; 
+font-weight: bold; 
+color: #999;">
+</div>
+<script type="text/javascript">
+    // determine box height
+    var boxHeight = parseInt(document.getElementById('my_bouncing_box').style.minHeight);
+    // determine box width
+    var boxWidth = parseInt(document.getElementById('my_bouncing_box').style.minWidth);
+
+    // determine the width of the browser inner  window
+    var innerWidth = window.innerWidth;
+    // determine the height of the browser inner  window
+    var innerHeight = window.innerHeight;
+
+    // determine box start position related to top
+    var startPositionTop = parseInt(document.getElementById('my_bouncing_box').style.top);
+    // determine box start position related to left
+    var startPositionLeft = parseInt(document.getElementById('my_bouncing_box').style.left);
+
+
+    //at the beginning we move the box to bottom and to  right
+    moveBottomRight(startPositionTop + 1, startPositionLeft + 1);
+
+
+    /**
+     * move the box to bottom and to right
+     * @param {Number} posTop
+     * @param {Number} posLeft
+     */
+    function moveBottomRight(posTop, posLeft) {
+        setTimeout(function() {
+            newPosition(posTop, posLeft);
+            if (posTop == (innerHeight - boxHeight) || posLeft == (innerWidth - boxWidth)) {
+                if (posTop == (innerHeight - boxHeight)) {
+                    return moveTopRight(--posTop, ++posLeft);
+                } else {
+                    return moveBottomLeft(++posTop, --posLeft);
+                }
+            }
+            moveBottomRight(++posTop, ++posLeft);
+        }, 10);
+    }
+
+    /**
+     * move the box to top and to right
+     * @param {Number} posTop
+     * @param {Number} posLeft
+     */
+    function moveTopRight(posTop, posLeft) {
+        setTimeout(function() {
+            newPosition(posTop, posLeft);
+            if (posLeft == (innerWidth - boxWidth) || posTop == 0) {
+                if (posLeft == (innerWidth - boxWidth)) {
+                    return moveTopLeft(++posTop, --posLeft);
+                } else {
+                    return moveBottomRight(++posTop, ++posLeft);
+                }
+            }
+            moveTopRight(--posTop, ++posLeft);
+        }, 10);
+    }
+
+    /**
+     * move the box to bottom and to left
+     * @param {Number} posTop
+     * @param {Number} posLeft
+     */
+    function moveBottomLeft(posTop, posLeft) {
+        setTimeout(function() {
+            newPosition(posTop, posLeft);
+            if (posTop == (innerHeight - boxHeight) || posLeft == 0) {
+                if (posTop == (innerHeight - boxHeight)) {
+                    return moveTopLeft(--posTop, --posLeft);
+                } else {
+                    return moveBottomRight(++posTop, ++posLeft);
+                }
+            }
+            moveBottomLeft(++posTop, --posLeft);
+        }, 10);
+    }
+
+    /**
+     * move the box to top and to left
+     * @param {Number} posTop
+     * @param {Number} posLeft
+     */
+    function moveTopLeft(posTop, posLeft) {
+        setTimeout(function() {
+            newPosition(posTop, posLeft);
+            if (posTop == 0 || posLeft == 0) {
+                if (posTop == 0) {
+                    return moveBottomLeft(++posTop, --posLeft);
+                } else {
+                    return moveTopRight(--posTop, ++posLeft);
+                }
+            }
+            moveTopLeft(--posTop, --posLeft);
+        }, 10);
+    }
+
+
+    /**
+     * set box to new position
+     * @param {Number} posTop
+     * @param {Number} posLeft
+     */
+    function newPosition(posTop, posLeft) {
+        document.getElementById('my_bouncing_box').style.top = posTop + 'px';
+        document.getElementById('my_bouncing_box').style.left = posLeft + 'px';
+    }
+</script>
+
+</html>
